@@ -16,8 +16,8 @@ public class Constants {
     }
 
     public static class SPEED {
-        public static final double BOOST_DRIVE = 1.0;
-        public static final double NORMAL_DRIVE = 0.6;
+        public static final double BOOST_DRIVE = 0.4;
+        public static final double NORMAL_DRIVE = 0.2;
         public static final double LINEAR_SPEED = 1.0;
     }
 

@@ -8,29 +8,29 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
 import org.firstinspires.ftc.teamcode.subsystems.IMU;
 import org.firstinspires.ftc.teamcode.subsystems.Linear;
+import org.firstinspires.ftc.teamcode.utils.Dataflow;
 
 public class Robot {
     private Gamepad gamepad1;
     private Gamepad gamepad2;
-    private Telemetry telemetry;
     private Drivebase driveBase;
     private Linear linear;
     private IMU imu;
-
+    private Telemetry telemetry;
     private boolean autoAlign = false;
+    private Dataflow dataflow;
 
     public Robot(OpMode opMode) {
-        driveBase = new Drivebase(opMode);
-        linear = new Linear(opMode);
-
-        telemetry = opMode.telemetry;
-        gamepad2 = opMode.gamepad2;
-        gamepad1 = opMode.gamepad1;
+        this.telemetry = opMode.telemetry;  // Initialize telemetry
+        this.driveBase = new Drivebase(opMode);
+        this.linear = new Linear(opMode);
+        this.gamepad1 = opMode.gamepad1;
+        this.gamepad2 = opMode.gamepad2;
+        this.dataflow = new Dataflow(this.telemetry);  // Initialize Dataflow with telemetry
     }
 
     public void init() {
         driveBase.init();
-//        linear.init();
     }
 
     public void loop() {
@@ -42,17 +42,16 @@ public class Robot {
 
         driveBase.setMotorPower(leftPower, rightPower);
 
-        if(gamepad1.left_trigger > 0) {
-            driveBase.setHorizontalMove(-gamepad1.left_trigger);
-        } else if(gamepad1.right_trigger > 0) {
-            driveBase.setHorizontalMove(gamepad1.right_trigger);
-        } else {
-            driveBase.setHorizontalMove(0);
-        }
+        driveBase.setHorizontalMove(-gamepad1.left_trigger);
+        driveBase.setHorizontalMove(gamepad1.right_trigger);
 
-        if(gamepad1.x) {
+
+        if (gamepad1.x) {
             driveBase.boost();
         }
+
+        dataflow.sendDatasToTelemetry(new String[]{"LeftFront:", "LeftBack:", "RightFront:", "RightBack:"},
+                driveBase.getLeftPower(), driveBase.getRightPower());
 //        if (gamepad1.left_bumper) {
 //            linear.setFrontLinear(1.0);
 //        } else if (gamepad1.left_trigger > 0.5) {
@@ -75,14 +74,5 @@ public class Robot {
 //            linear.setMiddleLinear(0.4);
 //        } else {
 //            linear.setMiddleLinear(0.0);
-//        }
 //
-//        if(gamepad1.circle) {
-//            linear.setLinearServo(1.0);
-//        } else if(gamepad1.square) {
-//            linear.setLinearServo(-1.0);
-//        } else {
-//            linear.setLinearServo(0);
-//        }
-    }
-}
+    }}

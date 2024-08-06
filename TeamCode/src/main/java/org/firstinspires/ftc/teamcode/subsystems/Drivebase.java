@@ -34,10 +34,10 @@ public class Drivebase {
         rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
         middleWheel = hardwareMap.get(DcMotorEx.class, "middleHex");
 
-        leftFront.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        leftBack.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        rightFront.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        rightBack.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        leftFront.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        leftBack.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        rightFront.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        rightBack.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
         rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
         rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -63,7 +63,7 @@ public class Drivebase {
         } else {
             power = 0;
         }
-        middleWheel.setPower(power*0.5);
+        middleWheel.setPower(power);
     }
 
     public int getPosition(DcMotor motor) {
@@ -77,4 +77,17 @@ public class Drivebase {
             speed = NORMAL_DRIVE;
         }
     }
+
+    public double getPower(DcMotorEx motorEx) {
+        return motorEx.getPower();
+    }
+
+    public double getLeftPower() {
+        return getPower(leftBack);
+    }
+
+    public double getRightPower() {
+        return getPower(rightBack);
+    }
+
 }
