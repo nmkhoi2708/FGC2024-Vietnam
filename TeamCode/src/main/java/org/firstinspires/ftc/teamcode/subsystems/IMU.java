@@ -8,7 +8,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
-// The IMU, to return the headings of robot, use for robot odometry.
 public class IMU {
     private BNO055IMU imu;
     private final HardwareMap hardwareMap;
@@ -17,7 +16,6 @@ public class IMU {
         this.hardwareMap = opMode.hardwareMap;
     }
 
-    // Initialize the IMU
     public void init() {
         imu = hardwareMap.get(BNO055IMU.class, "IMU");
 
@@ -28,7 +26,6 @@ public class IMU {
         imu.initialize(parameters);
     }
 
-    // Return the yaw angle of robot
     public double getYaw() {
         return imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.RADIANS).thirdAngle;
     }

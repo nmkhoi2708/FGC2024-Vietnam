@@ -17,8 +17,8 @@ public class MotorCalibration extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     // Constants for the motor and gearing
-    private static final double GEAR_RATIO = 16.0;
-    private static final double MOTOR_CPR = 23;  // Counts per Revolution of the HD Hex Motor
+    private static final double GEAR_RATIO = 13.0321;
+    private static final double MOTOR_CPR = 28;  // Counts per Revolution of the HD Hex Motor
     private static final int TARGET_POSITION = (int) (MOTOR_CPR * GEAR_RATIO);
 
     @Override

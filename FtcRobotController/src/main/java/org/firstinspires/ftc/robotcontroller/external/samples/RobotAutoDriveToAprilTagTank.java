@@ -86,8 +86,7 @@ import java.util.concurrent.TimeUnit;
 
 @TeleOp(name="Tank Drive To AprilTag", group = "Concept")
 @Disabled
-public class RobotAutoDriveToAprilTagTank extends LinearOpMode
-{
+public class RobotAutoDriveToAprilTagTank extends LinearOpMode {
     // Adjust these numbers to suit your robot.
     final double DESIRED_DISTANCE = 12.0; //  this is how close the camera should get to the target (inches)
 
@@ -109,8 +108,7 @@ public class RobotAutoDriveToAprilTagTank extends LinearOpMode
     private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     private AprilTagDetection desiredTag = null;     // Used to hold the data for a detected AprilTag
 
-    @Override public void runOpMode()
-    {
+    @Override public void runOpMode() {
         boolean targetFound     = false;    // Set to true when an AprilTag target is detected
         double  drive           = 0;        // Desired forward power/speed (-1 to +1) +ve is forward
         double  turn            = 0;        // Desired turning power/speed (-1 to +1) +ve is CounterClockwise

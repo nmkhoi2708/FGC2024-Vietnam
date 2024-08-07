@@ -12,6 +12,9 @@ import com.qualcomm.robotcore.util.Range;
 
 import static java.lang.Math.abs;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.teamcode.utils.Dataflow;
+
 public class Drivebase {
     private DcMotorEx leftFront;
     private DcMotorEx rightFront;
@@ -20,8 +23,8 @@ public class Drivebase {
     private DcMotorEx middleWheel;
     BNO055IMU imu;
     private final HardwareMap hardwareMap;
-
     private double speed = NORMAL_DRIVE;
+    private DcMotorEx[] leftMotors, rightMotors;
 
     public Drivebase(OpMode opMode) {
         this.hardwareMap = opMode.hardwareMap;
@@ -49,7 +52,7 @@ public class Drivebase {
         middleWheel.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
     }
 
-    public void setMotorPower(double leftPower, double rightPower){
+    public void setMotorsPower(double leftPower, double rightPower){
         leftFront.setPower(leftPower * speed);
         leftBack.setPower(leftPower * speed);
         rightFront.setPower(rightPower * speed);
@@ -90,4 +93,34 @@ public class Drivebase {
         return getPower(rightBack);
     }
 
+    public void oneMotorByEncoder(double moveTarget,
+                                        double power,
+                                        DcMotorEx motorEx,
+                                        double COUNTS_PER_INCH) {
+        int newTarget = motorEx.getCurrentPosition() + (int) (moveTarget*COUNTS_PER_INCH);
+        motorEx.setTargetPosition(newTarget);
+        motorEx.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorEx.setPower(power);
+        motorEx.setPower(0);
+        motorEx.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void driveBaseByEncoder(double rightTarget,
+                                    double leftTarget,
+                                    double COUNT_PER_INCH,
+                                    DcMotorEx[] leftMotors,
+                                    DcMotorEx[] rightMotors) {
+        int newLeftTarget;
+        int newRightTarget;
+
+        for(DcMotorEx motor : leftMotors) {
+            motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
+
+    }
+
+    public void autoHorizontalMove() {
+        double length = 30.03706;
+
+    }
 }

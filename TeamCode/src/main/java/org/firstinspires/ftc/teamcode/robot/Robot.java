@@ -21,12 +21,12 @@ public class Robot {
     private Dataflow dataflow;
 
     public Robot(OpMode opMode) {
-        this.telemetry = opMode.telemetry;  // Initialize telemetry
+        this.telemetry = opMode.telemetry;
         this.driveBase = new Drivebase(opMode);
         this.linear = new Linear(opMode);
         this.gamepad1 = opMode.gamepad1;
         this.gamepad2 = opMode.gamepad2;
-        this.dataflow = new Dataflow(this.telemetry);  // Initialize Dataflow with telemetry
+        this.dataflow = new Dataflow(this.telemetry);
     }
 
     public void init() {
@@ -40,7 +40,7 @@ public class Robot {
         double leftPower = Range.clip(leftY, -1.0, 1.0);
         double rightPower = Range.clip(rightY, -1.0, 1.0);
 
-        driveBase.setMotorPower(leftPower, rightPower);
+        driveBase.setMotorsPower(leftPower, rightPower);
 
         driveBase.setHorizontalMove(-gamepad1.left_trigger);
         driveBase.setHorizontalMove(gamepad1.right_trigger);
@@ -52,27 +52,5 @@ public class Robot {
 
         dataflow.sendDatasToTelemetry(new String[]{"LeftFront:", "LeftBack:", "RightFront:", "RightBack:"},
                 driveBase.getLeftPower(), driveBase.getRightPower());
-//        if (gamepad1.left_bumper) {
-//            linear.setFrontLinear(1.0);
-//        } else if (gamepad1.left_trigger > 0.5) {
-//            linear.setFrontLinear(-1.0);
-//        } else {
-//            linear.setFrontLinear(0.0);
-//        }
-//
-//        if (gamepad1.right_bumper) {
-//            linear.setBackLinear(1.0);
-//        } else if (gamepad1.right_trigger > 0.5) {
-//            linear.setBackLinear(-1.0);
-//        } else {
-//            linear.setBackLinear(0.0);
-//        }
-//
-//        if (gamepad1.dpad_down) {
-//            linear.setMiddleLinear(-0.4);
-//        } else if (gamepad1.dpad_up) {
-//            linear.setMiddleLinear(0.4);
-//        } else {
-//            linear.setMiddleLinear(0.0);
-//
-    }}
+    }
+}

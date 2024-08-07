@@ -7,12 +7,16 @@ public class Constants {
     public static class BASE {
         public static final double COUNTS_PER_HD_MOTOR_REV = 28 ;
         public static final double COUNTS_PER_HEX_MOTOR_REV = 288.0;
-        public static final double DRIVE_GEAR_REDUCTION = 16.0;
+        //5:1 Actual Gear Ratio 5.23
+        //4:1 Actual Gear Ratio 3.61
+        //3:1 Actual Gear Ratio 2.89
+        public static final double DRIVE_GEAR_REDUCTION = 13.0321;
         public static final double WHEEL_DIAMETER_INCHES = 9.00/2.54;
         public static final double SMALL_WHEEL_DIAMETER_INCHES = 6.00/2.54;
         public static final double CORE_HEX_RPM = 125;
         public static final double DC_HEX_RPM = 300;
-        public static final double HD_COUNTS_PER_INCH = (COUNTS_PER_HD_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
+        public static final double HD_COUNTS_PER_INCH = (COUNTS_PER_HD_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * Math.PI);
+        public static final double HEX_COUNT_PER_INCH = (COUNTS_PER_HEX_MOTOR_REV);
     }
 
     public static class SPEED {
