@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
-import org.firstinspires.ftc.teamcode.subsystems.IMU;
+import org.firstinspires.ftc.teamcode.subsystems.IMUHandler;
 import org.firstinspires.ftc.teamcode.subsystems.Linear;
 import org.firstinspires.ftc.teamcode.utils.Dataflow;
 
@@ -15,7 +15,7 @@ public class Robot {
     private Gamepad gamepad2;
     private Drivebase driveBase;
     private Linear linear;
-    private IMU imu;
+    private IMUHandler imu;
     private Telemetry telemetry;
     private boolean autoAlign = false;
     private Dataflow dataflow;

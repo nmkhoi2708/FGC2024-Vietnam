@@ -30,12 +30,11 @@ public class Constants {
         public static final float TRIGGER_SENSE = 0.2f;
     }
 
-    public static final class ROTATION {
-        public static final double ROTATE_KP = 1.3;
-        public static final double ROTATE_KI = 0;
-        public static final double ROTATE_KD = 0;
-        public static final double TOLERANCE = 0.05;
-        public static final double INTERGRAL_MIN = 0;
-        public static final double INTERGRAL_MAX = 1;
+    public static final class SWIVELINPLACE {
+        static final double DRIVE_SPEED = 0.4;
+        static final double TURN_SPEED = 0.1;
+        static final double HEADING_THRESHOLD = 1.0;
+        static final double P_TURN_GAIN = 0.02;
+        static final double P_DRIVE_GAIN = 0.03;
     }
 }
