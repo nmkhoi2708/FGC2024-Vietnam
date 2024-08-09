@@ -7,9 +7,7 @@ public class Constants {
     public static class BASE {
         public static final double COUNTS_PER_HD_MOTOR_REV = 28 ;
         public static final double COUNTS_PER_HEX_MOTOR_REV = 288.0;
-        //5:1 Actual Gear Ratio 5.23
-        //4:1 Actual Gear Ratio 3.61
-        //3:1 Actual Gear Ratio 2.89
+        //5:1 Actual Gear Ratio 5.23        4:1 Actual Gear Ratio 3.61         3:1 Actual Gear Ratio 2.89
         public static final double DRIVE_GEAR_REDUCTION = 13.0321;
         public static final double WHEEL_DIAMETER_INCHES = 9.00/2.54;
         public static final double SMALL_WHEEL_DIAMETER_INCHES = 6.00/2.54;
@@ -31,10 +29,10 @@ public class Constants {
     }
 
     public static final class SWIVELINPLACE {
-        static final double DRIVE_SPEED = 0.4;
-        static final double TURN_SPEED = 0.1;
-        static final double HEADING_THRESHOLD = 1.0;
-        static final double P_TURN_GAIN = 0.02;
-        static final double P_DRIVE_GAIN = 0.03;
+        public static final double DRIVE_SPEED = 0.4;
+        public static final double TURN_SPEED = 0.1;
+        public static final double HEADING_THRESHOLD = 1.0;
+        public static final double P_TURN_GAIN = 0.02;
+        public static final double P_DRIVE_GAIN = 0.03;
     }
 }

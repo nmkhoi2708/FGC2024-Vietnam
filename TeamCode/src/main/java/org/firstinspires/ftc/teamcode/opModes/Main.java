@@ -1,23 +1,22 @@
 package org.firstinspires.ftc.teamcode.opModes;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
-@TeleOp(name="Main")
-public class Main extends OpMode {
+@Autonomous(name = "Robot Autonomous", group = "Robot")
+public class Main extends LinearOpMode {
     private Robot robot;
+
     @Override
-    public void init() {
+    public void runOpMode() {
         robot = new Robot(this);
         robot.init();
-    }
 
-    @Override
-    public void loop() {
-        robot.loop();
+        waitForStart();
+
+        if (opModeIsActive()) {
+            robot.loop(this);
+        }
     }
 }
-

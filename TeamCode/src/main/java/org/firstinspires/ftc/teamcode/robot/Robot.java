@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.robot;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.Range;
 
@@ -20,12 +20,12 @@ public class Robot {
     private boolean autoAlign = false;
     private Dataflow dataflow;
 
-    public Robot(OpMode opMode) {
-        this.telemetry = opMode.telemetry;
-        this.driveBase = new Drivebase(opMode);
-        this.linear = new Linear(opMode);
-        this.gamepad1 = opMode.gamepad1;
-        this.gamepad2 = opMode.gamepad2;
+    public Robot(LinearOpMode linearOpMode) {
+        this.telemetry = linearOpMode.telemetry;
+        this.driveBase = new Drivebase(linearOpMode);
+        this.linear = new Linear(linearOpMode);
+        this.gamepad1 = linearOpMode.gamepad1;
+        this.gamepad2 = linearOpMode.gamepad2;
         this.dataflow = new Dataflow(this.telemetry);
     }
 
@@ -33,24 +33,27 @@ public class Robot {
         driveBase.init();
     }
 
-    public void loop() {
-        double leftY = gamepad1.left_stick_y;
-        double rightY = gamepad1.right_stick_y;
+    public void loop(LinearOpMode linearOpMode) {
+        while (linearOpMode.opModeIsActive()) {
+            double leftY = gamepad1.left_stick_y;
+            double rightY = gamepad1.right_stick_y;
 
-        double leftPower = Range.clip(leftY, -1.0, 1.0);
-        double rightPower = Range.clip(rightY, -1.0, 1.0);
+            double leftPower = Range.clip(leftY, -1.0, 1.0);
+            double rightPower = Range.clip(rightY, -1.0, 1.0);
 
-        driveBase.setMotorsPower(leftPower, rightPower);
+            driveBase.setMotorsPower(leftPower, rightPower);
 
-        driveBase.setHorizontalMove(-gamepad1.left_trigger);
-        driveBase.setHorizontalMove(gamepad1.right_trigger);
+//          driveBase.setHorizontalMove(-gamepad1.left_trigger);
+//          driveBase.setHorizontalMove(gamepad1.right_trigger);
 
+            if (gamepad1.x) {
+                driveBase.boost();
+            }
 
-        if (gamepad1.x) {
-            driveBase.boost();
+            dataflow.sendDatasToTelemetry(new String[]{"LeftFront:", "LeftBack:", "RightFront:", "RightBack:"},
+                    driveBase.getLeftPower(), driveBase.getRightPower());
+
+            linearOpMode.telemetry.update();
         }
-
-        dataflow.sendDatasToTelemetry(new String[]{"LeftFront:", "LeftBack:", "RightFront:", "RightBack:"},
-                driveBase.getLeftPower(), driveBase.getRightPower());
     }
 }
