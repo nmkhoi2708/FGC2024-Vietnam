@@ -13,26 +13,26 @@ public class Dataflow {
         this.telemetry = telemetry;
     }
 
-    public void sendDatasToDashBoard(String[] contexts, double... numbers) {
+    public void sendDatasToDashBoard(String[] contexts, Object... values) {
         contexts = (contexts == null || contexts.length == 0) ? new String[]{" "} : contexts;
-        for (int i = 0; i < numbers.length; i++) {
+        for (int i = 0; i < values.length; i++) {
             String context = (i < contexts.length && contexts[i] != null && !contexts[i].isEmpty()) ? contexts[i] : "Unknown param";
-            dashboardTelemetry.addData(context, numbers[i]);
+            dashboardTelemetry.addData(context, values[i]);
         }
         dashboardTelemetry.update();
     }
 
-    public void sendDatasToTelemetry(String[] contexts, double... numbers) {
+    public void sendDatasToTelemetry(String[] contexts, Object... values) {
         contexts = (contexts == null || contexts.length == 0) ? new String[]{" "} : contexts;
-        for (int i = 0; i < numbers.length; i++) {
+        for (int i = 0; i < values.length; i++) {
             String context = (i < contexts.length && contexts[i] != null && !contexts[i].isEmpty()) ? contexts[i] : "Unknown param";
-            telemetry.addData(context, numbers[i]);
+            telemetry.addData(context, values[i]);
         }
         telemetry.update();
     }
 
-    public void sendToAll(String[] contexts, double... numbers) {
-        sendDatasToTelemetry(contexts, numbers);
-        sendDatasToDashBoard(contexts, numbers);
+    public void sendToAll(String[] contexts, Object... values) {
+        sendDatasToTelemetry(contexts, values);
+        sendDatasToDashBoard(contexts, values);
     }
 }
