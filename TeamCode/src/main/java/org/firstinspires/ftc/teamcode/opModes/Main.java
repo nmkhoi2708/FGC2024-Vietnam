@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.opModes;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
-@Autonomous(name = "Robot Autonomous", group = "Robot")
+@TeleOp(name = "Robot Autonomous", group = "Robot")
 public class Main extends LinearOpMode {
     private Robot robot;
 
