@@ -25,7 +25,8 @@ public class OneDcMaxVelocityTest extends LinearOpMode {
             if (currentVelocity > maxVelocity) {
                 maxVelocity = currentVelocity;
             }
-            dataflow.sendToAll(new String[]{"Current velocity", "Maximum velocity"}, currentVelocity ,maxVelocity);
+            dataflow.addToAll(new String[]{"Current velocity", "Maximum velocity"}, currentVelocity ,maxVelocity);
+            dataflow.sendDatas();
         }
     }
 }

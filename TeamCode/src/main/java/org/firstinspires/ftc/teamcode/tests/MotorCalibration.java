@@ -42,11 +42,9 @@ public class MotorCalibration extends LinearOpMode {
             runtime.reset();
             motor.setPower(0.1);
             while (opModeIsActive() && motor.isBusy()) {
-                dataflow.sendToAll(new String[]{"Running to", "Currently at", "Velocity", "Current"},
+                dataflow.addToAll(new String[]{"Running to", "Currently at", "Velocity", "Current"},
                                                 newTarget, motor.getCurrentPosition(), motor.getVelocity(), motor.getCurrent(CurrentUnit.MILLIAMPS));
             }
-
-            // Stop the motor and reset the mode
             motor.setPower(0);
             motor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
             sleep(2500);  // Pause for a while before ending the test

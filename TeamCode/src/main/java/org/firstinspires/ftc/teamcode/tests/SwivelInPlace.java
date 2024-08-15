@@ -14,5 +14,6 @@ public class SwivelInPlace extends LinearOpMode {
         autoSystems.init();
 
         waitForStart();
-        autoSystems.turnToHeading(90, this);}
+        autoSystems.turnToHeading(90);
+    }
 }

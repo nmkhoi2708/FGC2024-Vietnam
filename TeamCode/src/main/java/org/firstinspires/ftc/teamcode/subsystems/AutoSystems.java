@@ -17,12 +17,14 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class AutoSystems extends Drivebase {
-    private Telemetry telemetry;
-    private IMUHandler imuHandler;
-    private PIDFController pidfController;
+    private final Telemetry telemetry;
+    private final IMUHandler imuHandler;
+    private final PIDFController pidfController;
+    private final LinearOpMode linearOpMode;
 
     public AutoSystems(LinearOpMode linearOpMode) {
         super(linearOpMode);
+        this.linearOpMode = linearOpMode;
         this.telemetry = linearOpMode.telemetry;
         this.imuHandler = new IMUHandler(linearOpMode);
         this.imuHandler.init();
@@ -31,10 +33,11 @@ public class AutoSystems extends Drivebase {
                 P_TURN_GAIN,
                 I_TURN_GAIN,
                 D_TURN_GAIN,
-                F_TURN_GAIN);
+                F_TURN_GAIN
+        );
     }
 
-    public void turnToHeading(double heading, LinearOpMode linearOpMode) {
+    public void turnToHeading(double heading) {
         while (linearOpMode.opModeIsActive() && !onHeading(TURN_SPEED, whichWayToTurn(heading), P_TURN_GAIN)) {
             telemetry.update();
         }
@@ -43,7 +46,7 @@ public class AutoSystems extends Drivebase {
 
     private double whichWayToTurn(double targetHeading) {
         double currentHeading = imuHandler.getHeading();
-        if(currentHeading >= -targetHeading && currentHeading <= targetHeading) {
+        if (currentHeading >= -targetHeading && currentHeading <= targetHeading) {
             return targetHeading - abs(currentHeading);
         }
         return abs(currentHeading) - targetHeading;
@@ -80,7 +83,7 @@ public class AutoSystems extends Drivebase {
         telemetry.addData("Target", "%5.2f", heading);
         telemetry.addData("Err", "%5.2f", error);
         telemetry.addData("Current heading", "%5.2f", imuHandler.getHeading());
-        telemetry.addData("Speed.", "%5.2f:%5.2f", leftSpeed, rightSpeed);
+        telemetry.addData("Speed", "%5.2f:%5.2f", leftSpeed, rightSpeed);
         return onTarget;
     }
 
@@ -95,21 +98,28 @@ public class AutoSystems extends Drivebase {
         return Range.clip(error * PCoeff, -1, 1);
     }
 
-
     private void setUpForEncoder(double moveTarget, DcMotorEx motorEx, double COUNTS_PER_INCH) {
-        int newTarget = motorEx.getCurrentPosition() + (int) (moveTarget*COUNTS_PER_INCH);
+        int newTarget = motorEx.getCurrentPosition() + (int) (moveTarget * COUNTS_PER_INCH);
         motorEx.setTargetPosition(newTarget);
         motorEx.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public void horizontalAlign() {
-        // TODO: Wheel diameter is different
-        setUpForEncoder(HORIZONTAL_AUTO_REQUIREMENT, middleWheel, HD_COUNTS_PER_INCH);
+    public void horizontalMove(double moveTarget) {
+        setUpForEncoder(moveTarget, middleWheel, HD_COUNTS_PER_INCH);
         middleWheel.setPower(AUTO_DRIVE);
+        while (linearOpMode.opModeIsActive() && middleWheel.isBusy()) {
+            // Wait for the movement to complete
+        }
         middleWheel.setPower(0);
         middleWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-    public void alignToTags() {
 
+    public void alignToTags(double x, double y, double yaw) {
+        turnToHeading(yaw);
+        for (DcMotorEx motorEx : motors) {
+            setUpForEncoder(x, motorEx, HD_COUNTS_PER_INCH);
+        }
+
+        horizontalMove(y);
     }
 }

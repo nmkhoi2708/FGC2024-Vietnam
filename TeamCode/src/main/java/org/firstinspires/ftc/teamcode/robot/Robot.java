@@ -50,7 +50,7 @@ public class Robot {
                     }
                     break;
                 case TURNING:
-                    autoSystems.turnToHeading(90, linearOpMode);
+                    autoSystems.turnToHeading(90);
                     currentState = RobotState.MANUAL_CONTROL;
                     break;
                 case MANUAL_CONTROL:
@@ -77,8 +77,8 @@ public class Robot {
                     break;
             }
 
-            dataflow.sendDatasToTelemetry(new String[]{"LeftBack:", "RightBack:", "Current State:"},
-                    driveBase.getLeftPower(), driveBase.getRightPower(), currentState);
+            dataflow.addToAll(new String[]{"LeftBack:", "RightBack:", "Current State:"}, driveBase.getLeftPower(), driveBase.getRightPower(), currentState);
+            dataflow.sendDatas();
         }
     }
 }

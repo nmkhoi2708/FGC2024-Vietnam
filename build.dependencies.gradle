@@ -26,5 +26,8 @@ dependencies {
 
     //FTClib
     implementation 'org.ftclib.ftclib:core:2.1.1' // core
+
+    //RR
+    implementation 'com.acmerobotics.dashboard:dashboard:0.4.15'
 }
 
