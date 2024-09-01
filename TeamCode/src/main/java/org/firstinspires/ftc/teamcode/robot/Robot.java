@@ -43,42 +43,54 @@ public class Robot {
         while (linearOpMode.opModeIsActive()) {
             switch (currentState) {
                 case IDLE:
-                    if (gamepad1.circle) {
-                        currentState = RobotState.TURNING;
-                    } else if (gamepad1.start) {
-                        currentState = RobotState.MANUAL_CONTROL;
-                    }
+                    idleState();
                     break;
                 case TURNING:
-                    autoSystems.turnToHeading(90);
-                    currentState = RobotState.MANUAL_CONTROL;
+                    turningState();
                     break;
                 case MANUAL_CONTROL:
-                    double leftY = gamepad1.left_stick_y;
-                    double rightY = gamepad1.right_stick_y;
-
-                    double leftPower = Range.clip(leftY, -1.0, 1.0);
-                    double rightPower = Range.clip(rightY, -1.0, 1.0);
-
-                    driveBase.setMotorsPower(leftPower, rightPower);
-
-                    driveBase.setHorizontalMove(-gamepad1.left_trigger);
-                    driveBase.setHorizontalMove(gamepad1.right_trigger);
-
-                    if (gamepad1.x) {
-                        driveBase.boost();
-                    }
-                    if (gamepad1.circle) {
-                        currentState = RobotState.TURNING;
-                    }
-                    if (gamepad1.triangle) {
-                        currentState = RobotState.IDLE;
-                    }
+                    manualControlState();
                     break;
             }
-
             dataflow.addToAll(new String[]{"LeftBack:", "RightBack:", "Current State:"}, driveBase.getLeftPower(), driveBase.getRightPower(), currentState);
             dataflow.sendDatas();
         }
+    }
+
+    private void idleState() {
+        if (gamepad1.circle) {
+            currentState = RobotState.TURNING;
+        } else if (gamepad1.start) {
+            currentState = RobotState.MANUAL_CONTROL;
+        }
+    }
+
+    private void turningState() {
+        autoSystems.turnToHeading(90);
+        currentState = RobotState.MANUAL_CONTROL;
+    }
+
+    private void manualControlState() {
+        double leftY = gamepad1.left_stick_y;
+        double rightY = gamepad1.right_stick_y;
+
+        double leftPower = Range.clip(leftY, -1.0, 1.0);
+        double rightPower = Range.clip(rightY, -1.0, 1.0);
+
+        driveBase.setMotorsPower(leftPower, rightPower);
+
+        driveBase.setHorizontalMove(-gamepad1.left_trigger);
+        driveBase.setHorizontalMove(gamepad1.right_trigger);
+
+        if (gamepad1.x) {
+            driveBase.boost();
+        }
+        if (gamepad1.circle) {
+            currentState = RobotState.TURNING;
+        }
+        if (gamepad1.triangle) {
+            currentState = RobotState.IDLE;
+        }
+
     }
 }

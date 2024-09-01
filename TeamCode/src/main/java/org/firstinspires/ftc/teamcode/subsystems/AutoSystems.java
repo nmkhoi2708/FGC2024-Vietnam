@@ -7,7 +7,6 @@ import static org.firstinspires.ftc.teamcode.Constants.SPEED.*;
 
 import static java.lang.Math.abs;
 
-import com.arcrobotics.ftclib.controller.PIDFController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -15,12 +14,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.utils.Dataflow;
 
 public class AutoSystems extends Drivebase {
     private final Telemetry telemetry;
     private final IMUHandler imuHandler;
-    private final PIDFController pidfController;
     private final LinearOpMode linearOpMode;
+    private Dataflow dataflow;
 
     public AutoSystems(LinearOpMode linearOpMode) {
         super(linearOpMode);
@@ -29,16 +29,10 @@ public class AutoSystems extends Drivebase {
         this.imuHandler = new IMUHandler(linearOpMode);
         this.imuHandler.init();
         this.imuHandler.resetHeading();
-        this.pidfController = new PIDFController(
-                P_TURN_GAIN,
-                I_TURN_GAIN,
-                D_TURN_GAIN,
-                F_TURN_GAIN
-        );
     }
 
     public void turnToHeading(double heading) {
-        while (linearOpMode.opModeIsActive() && !onHeading(TURN_SPEED, whichWayToTurn(heading), P_TURN_GAIN)) {
+        while (linearOpMode.opModeIsActive() && !onHeading(TURN_SPEED, heading, P_TURN_GAIN)) {
             telemetry.update();
         }
         setMotorsPower(0, 0);
@@ -80,10 +74,9 @@ public class AutoSystems extends Drivebase {
         }
 
         setMotorsPower(leftSpeed, rightSpeed);
-        telemetry.addData("Target", "%5.2f", heading);
-        telemetry.addData("Err", "%5.2f", error);
-        telemetry.addData("Current heading", "%5.2f", imuHandler.getHeading());
-        telemetry.addData("Speed", "%5.2f:%5.2f", leftSpeed, rightSpeed);
+//        dataflow.addToAll(new String[] {"Target", "Err", "Current heading", "Speed left", "Speed right"},
+//                                        heading, error, imuHandler.getHeading(), leftSpeed, rightSpeed);
+//        dataflow.sendDatas();
         return onTarget;
     }
 
