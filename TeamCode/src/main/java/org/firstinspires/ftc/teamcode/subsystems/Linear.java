@@ -6,13 +6,14 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class Linear {
     private DcMotorEx upLinear;
     private DcMotorEx downLinear;
     private DcMotorEx middleLinear;
-    private CRServo servo1;
-    private CRServo servo2;
+    private Servo servo1;
+    private Servo servo2;
     private final HardwareMap hardwareMap;
 
     public Linear(OpMode opMode) {
@@ -23,14 +24,14 @@ public class Linear {
         upLinear = hardwareMap.get(DcMotorEx.class, "upLinear");
         downLinear = hardwareMap.get(DcMotorEx.class, "downLinear");
         middleLinear = hardwareMap.get(DcMotorEx.class, "middleLinear");
-        servo1 = hardwareMap.get(CRServo.class, "servo1");
-        servo2 = hardwareMap.get(CRServo.class, "servo2");
+        servo1 = hardwareMap.get(Servo.class, "servo1");
+        servo2 = hardwareMap.get(Servo.class, "servo2");
 
-        upLinear.setDirection(DcMotorSimple.Direction.FORWARD);
-        downLinear.setDirection(DcMotorSimple.Direction.REVERSE);
+        upLinear.setDirection(DcMotorSimple.Direction.REVERSE);
+        downLinear.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        servo1.setDirection(CRServo.Direction.REVERSE);
-        servo2.setDirection(CRServo.Direction.FORWARD);
+        servo1.setDirection(Servo.Direction.FORWARD);
+        servo2.setDirection(Servo.Direction.REVERSE);
 
         upLinear.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         downLinear.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
@@ -58,8 +59,8 @@ public class Linear {
         setUpLinear(pow);
     }
 
-    public void setLinearServo(double pow) {
-        servo2.setPower(pow);
-        servo1.setPower(pow);
+    public void setLinearServo(double pos) {
+        servo2.setPosition(pos);
+        servo1.setPosition(pos);
     }
 }

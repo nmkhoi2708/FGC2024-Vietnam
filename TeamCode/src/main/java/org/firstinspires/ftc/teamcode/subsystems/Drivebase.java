@@ -41,7 +41,7 @@ public class Drivebase {
 
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        setDirection(DcMotorSimple.Direction.REVERSE, leftMotors);
+        setDirection(DcMotorSimple.Direction.REVERSE, rightMotors);
     }
 
     public void setMotorsPower(double leftPower, double rightPower){

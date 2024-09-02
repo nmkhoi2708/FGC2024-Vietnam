@@ -77,14 +77,17 @@ public class Robot {
     }
 
     private void manualControlState() {
+        //Joy-stick
         double leftY = gamepad1.left_stick_y;
         double rightY = gamepad1.right_stick_y;
         double leftPower = Range.clip(leftY, -1.0, 1.0);
         double rightPower = Range.clip(rightY, -1.0, 1.0);
 
+        //Triggers and bumpers
         driveBase.setMotorsPower(leftPower, rightPower);
-        driveBase.setHorizontalMove(gamepad1.right_trigger-gamepad1.left_trigger);
+        driveBase.setHorizontalMove(gamepad1.left_trigger-gamepad1.right_trigger);
 
+        //Dpad
         if (gamepad1.dpad_up) {
             linear.setAllLinear(1.0);
         } else if (gamepad1.dpad_down) {
@@ -98,11 +101,18 @@ public class Robot {
             linear.setMiddleLinear(0);
         }
 
+        //Color pad
         if (gamepad1.circle) {
             currentState = RobotState.TURNING;
         }
-        if (gamepad1.triangle) {
-            currentState = RobotState.IDLE;
+
+        if(gamepad1.triangle) {
+            linear.setLinearServo(1.0);
+        } else if(gamepad1.cross) {
+            linear.setLinearServo(0.05);
+        } else if(gamepad1.square) {
+            linear.setLinearServo(0.35);
         }
+
     }
 }
