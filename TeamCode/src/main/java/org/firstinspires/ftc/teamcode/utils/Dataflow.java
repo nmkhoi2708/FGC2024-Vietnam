@@ -8,7 +8,6 @@ public class Dataflow {
     Telemetry dashboardTelemetry = dashboard.getTelemetry();
     Telemetry telemetry;
 
-    // Constructor to initialize the telemetry
     public Dataflow(Telemetry telemetry) {
         this.telemetry = telemetry;
     }

@@ -29,6 +29,7 @@ public class AutoSystems extends Drivebase {
         this.imuHandler = new IMUHandler(linearOpMode);
         this.imuHandler.init();
         this.imuHandler.resetHeading();
+        this.dataflow = new Dataflow(this.telemetry);
     }
 
     public void turnToHeading(double heading) {
@@ -56,6 +57,8 @@ public class AutoSystems extends Drivebase {
     }
 
     private boolean onHeading(double speed, double heading, double PCoeff) {
+        ElapsedTime runtime = new ElapsedTime();
+        runtime.reset();
         double error = getError(heading);
         double steer;
         boolean onTarget = false;
@@ -74,9 +77,9 @@ public class AutoSystems extends Drivebase {
         }
 
         setMotorsPower(leftSpeed, rightSpeed);
-//        dataflow.addToAll(new String[] {"Target", "Err", "Current heading", "Speed left", "Speed right"},
-//                                        heading, error, imuHandler.getHeading(), leftSpeed, rightSpeed);
-//        dataflow.sendDatas();
+        dataflow.addToAll(new String[] {"Target", "Err", "Current heading", "Speed left", "Speed right", "Runtime"},
+                                        heading, error, imuHandler.getHeading(), leftSpeed, rightSpeed, runtime);
+        dataflow.sendDatas();
         return onTarget;
     }
 
@@ -98,21 +101,12 @@ public class AutoSystems extends Drivebase {
     }
 
     public void horizontalMove(double moveTarget) {
-        setUpForEncoder(moveTarget, middleWheel, HD_COUNTS_PER_INCH);
+        setUpForEncoder(moveTarget, middleWheel, HD_SMALL_COUNTS_PER_INCH);
         middleWheel.setPower(AUTO_DRIVE);
         while (linearOpMode.opModeIsActive() && middleWheel.isBusy()) {
             // Wait for the movement to complete
         }
         middleWheel.setPower(0);
         middleWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
-    public void alignToTags(double x, double y, double yaw) {
-        turnToHeading(yaw);
-        for (DcMotorEx motorEx : motors) {
-            setUpForEncoder(x, motorEx, HD_COUNTS_PER_INCH);
-        }
-
-        horizontalMove(y);
     }
 }

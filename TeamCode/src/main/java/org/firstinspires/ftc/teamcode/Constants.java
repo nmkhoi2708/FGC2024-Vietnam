@@ -17,6 +17,7 @@ public class Constants {
 
         // These values are computed based on the above constants.
         public static double HD_COUNTS_PER_INCH = (COUNTS_PER_HD_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * Math.PI);
+        public static double HD_SMALL_COUNTS_PER_INCH = (COUNTS_PER_HD_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (SMALL_WHEEL_DIAMETER_INCHES * Math.PI);
         public static double HEX_COUNT_PER_INCH = (COUNTS_PER_HEX_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * Math.PI);
     }
 
@@ -36,7 +37,7 @@ public class Constants {
 
     @Config
     public static class SWIVEL {
-        public static double TURN_SPEED = 0.4;
+        public static double TURN_SPEED = 0.3;
         public static double HEADING_THRESHOLD = 0.2;
         public static double P_TURN_GAIN = 0.02;
     }

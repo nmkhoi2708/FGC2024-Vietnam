@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.AutoSystems;
 import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
-import org.firstinspires.ftc.teamcode.subsystems.IMUHandler;
 import org.firstinspires.ftc.teamcode.subsystems.Linear;
 import org.firstinspires.ftc.teamcode.utils.Dataflow;
 
@@ -37,6 +36,7 @@ public class Robot {
     public void init() {
         driveBase.init();
         autoSystems.init();
+        linear.init();
     }
 
     public void loop(LinearOpMode linearOpMode) {
@@ -52,7 +52,12 @@ public class Robot {
                     manualControlState();
                     break;
             }
-            dataflow.addToAll(new String[]{"LeftBack:", "RightBack:", "Current State:"}, driveBase.getLeftPower(), driveBase.getRightPower(), currentState);
+            dataflow.addToAll(new String[]{ "LeftBack:",
+                                            "RightBack:",
+                                            "Current State:"},
+                                            driveBase.getLeftPower(),
+                                            driveBase.getRightPower(),
+                                            currentState);
             dataflow.sendDatas();
         }
     }
@@ -68,29 +73,36 @@ public class Robot {
     private void turningState() {
         autoSystems.turnToHeading(90);
         currentState = RobotState.MANUAL_CONTROL;
+        gamepad1.rumble(100);
     }
 
     private void manualControlState() {
         double leftY = gamepad1.left_stick_y;
         double rightY = gamepad1.right_stick_y;
-
         double leftPower = Range.clip(leftY, -1.0, 1.0);
         double rightPower = Range.clip(rightY, -1.0, 1.0);
 
         driveBase.setMotorsPower(leftPower, rightPower);
+        driveBase.setHorizontalMove(gamepad1.right_trigger-gamepad1.left_trigger);
 
-        driveBase.setHorizontalMove(-gamepad1.left_trigger);
-        driveBase.setHorizontalMove(gamepad1.right_trigger);
-
-        if (gamepad1.x) {
-            driveBase.boost();
+        if (gamepad1.dpad_up) {
+            linear.setAllLinear(1.0);
+        } else if (gamepad1.dpad_down) {
+            linear.setAllLinear(-1.0);
+        } else if (gamepad1.dpad_left) {
+            linear.setMiddleLinear(1.0);
+        } else if (gamepad1.dpad_right) {
+            linear.setMiddleLinear(-1.0);
+        } else {
+            linear.setAllLinear(0);
+            linear.setMiddleLinear(0);
         }
+
         if (gamepad1.circle) {
             currentState = RobotState.TURNING;
         }
         if (gamepad1.triangle) {
             currentState = RobotState.IDLE;
         }
-
     }
 }
