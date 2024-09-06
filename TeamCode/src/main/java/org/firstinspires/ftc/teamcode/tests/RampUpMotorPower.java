@@ -24,25 +24,25 @@ public class RampUpMotorPower extends OpMode {
     public void loop() {
         double joystickValue = gamepad1.left_stick_y; // Assuming we're using the left stick y-axis for this example
 
-        if (joystickValue == 0) {
+        if (joystickValue == 0) { //stop the motor when the joystick is released
             motorPower = 0;
         } else {
             if (motorPower < maxPower) {
-                motorPower += increment;
+                motorPower += increment;  //increase the motor power gradually ( plus motorPower each loop until it reaches maxpower )
                 if (motorPower > maxPower) {
                     motorPower = maxPower;
                 }
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(1000); //pause the execution of the current thread
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    e.printStackTrace(); //provide information about the thread
                 }
             }
         }
 
-        motor.setPower(motorPower);
+        motor.setPower(motorPower); //set motor power
 
-        telemetry.addData("Joystick Value", joystickValue);
+        telemetry.addData("Joystick Value", joystickValue); //telemetry transmission
         telemetry.addData("Motor Power", motorPower);
         telemetry.update();
     }

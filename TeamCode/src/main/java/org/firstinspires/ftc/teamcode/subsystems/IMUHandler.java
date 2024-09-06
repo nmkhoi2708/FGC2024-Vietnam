@@ -9,27 +9,27 @@ import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class IMUHandler {
-    private IMU imu;
-    private final HardwareMap hardwareMap;
+    private IMU imu; //create an obj for the imu
+    private final HardwareMap hardwareMap; //create an obj for hardwareMap usage
 
     public IMUHandler(LinearOpMode linearOpMode) {
-        this.hardwareMap = linearOpMode.hardwareMap;
+        this.hardwareMap = linearOpMode.hardwareMap; //create an access for OpModes
     }
 
     public void init() {
-        imu = hardwareMap.get(IMU.class, "imu");
-        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
+        imu = hardwareMap.get(IMU.class, "imu"); //connect with the IMU
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP; //declare the IMU direction
         RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.RIGHT;
-        RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
+        RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection); //direction of the REV control hub on the robot
 
-        imu.initialize(new IMU.Parameters(orientationOnRobot));
+        imu.initialize(new IMU.Parameters(orientationOnRobot)); //create a new imu parameters
     }
 
-    public double getHeading() {
+    public double getHeading() { //get the current heading of the robot in degree
         return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
     }
 
-    public void resetHeading() {
+    public void resetHeading() { //reset the heading back to 0 
         imu.resetYaw();
     }
 }

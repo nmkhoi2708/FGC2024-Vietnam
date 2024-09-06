@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Linear;
 import org.firstinspires.ftc.teamcode.utils.Dataflow;
 
 public class Robot {
-    private Gamepad gamepad1;
+    private Gamepad gamepad1; //create objects for robot control 
     private Gamepad gamepad2;
     private Drivebase driveBase;
     private Linear linear;
@@ -22,18 +22,18 @@ public class Robot {
     private enum RobotState { IDLE, TURNING, MANUAL_CONTROL }
     private RobotState currentState;
 
-    public Robot(LinearOpMode linearOpMode) {
-        this.telemetry = linearOpMode.telemetry;
+    public Robot(LinearOpMode linearOpMode) { //create an access for LinearOpModes
+        this.telemetry = linearOpMode.telemetry; 
         this.driveBase = new Drivebase(linearOpMode);
         this.linear = new Linear(linearOpMode);
         this.gamepad1 = linearOpMode.gamepad1;
         this.gamepad2 = linearOpMode.gamepad2;
         this.dataflow = new Dataflow(this.telemetry);
         this.autoSystems = new AutoSystems(linearOpMode);
-        this.currentState = RobotState.IDLE;
+        this.currentState = RobotState.IDLE;//set to the idle state
     }
 
-    public void init() {
+    public void init() { //initialize
         driveBase.init();
         autoSystems.init();
         linear.init();
@@ -41,7 +41,7 @@ public class Robot {
 
     public void loop(LinearOpMode linearOpMode) {
         while (linearOpMode.opModeIsActive()) {
-            switch (currentState) {
+            switch (currentState) { //set the mode ( idle / auto / manual )
                 case IDLE:
                     idleState();
                     break;
@@ -58,19 +58,19 @@ public class Robot {
                                             driveBase.getLeftPower(),
                                             driveBase.getRightPower(),
                                             currentState);
-            dataflow.sendDatas();
+            dataflow.sendDatas(); //send telemetry datas
         }
     }
 
-    private void idleState() {
+    private void idleState() { 
         if (gamepad1.circle) {
-            currentState = RobotState.TURNING;
+            currentState = RobotState.TURNING; //turn to auto mode if the circle button is pressed
         } else if (gamepad1.start) {
-            currentState = RobotState.MANUAL_CONTROL;
+            currentState = RobotState.MANUAL_CONTROL; //turn to manual mode if the start button is pressed
         }
     }
 
-    private void turningState() {
+    private void turningState() { //turn to the desired heading then switch to manual mode and rumble the gamepad
         autoSystems.turnToHeading(90);
         currentState = RobotState.MANUAL_CONTROL;
         gamepad1.rumble(100);

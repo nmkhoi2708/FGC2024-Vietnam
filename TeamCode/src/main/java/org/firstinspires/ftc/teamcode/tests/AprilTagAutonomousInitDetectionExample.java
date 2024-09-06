@@ -7,16 +7,16 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.teamcode.subsystems.AprilTagCamera;
 
 @Autonomous(name = "AprilTag Detection Example")
-public class AprilTagAutonomousInitDetectionExample extends LinearOpMode {
+public class AprilTagAutonomousInitDetectionExample extends LinearOpMode { //to test apriltag detection
 
-    private AprilTagCamera aprilTagCamera;
+    private AprilTagCamera aprilTagCamera; //create obj for the camera and gamepad usage
     private Gamepad gamepad;
     @Override
     public void runOpMode() {
-        aprilTagCamera = new AprilTagCamera(this, gamepad);
-        aprilTagCamera.init();
+        aprilTagCamera = new AprilTagCamera(this, gamepad); 
+        aprilTagCamera.init(); //initialize the camera
 
-        aprilTagCamera.trackAprilTag();
+        aprilTagCamera.trackAprilTag(); //return telemetry datas whether the camera has or hasn't detected an apriltag 
 
         waitForStart();
 
